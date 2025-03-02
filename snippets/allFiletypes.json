@@ -1,0 +1,45 @@
+{
+  "autocmd (Filetype)": {
+    "body": [
+      "vim.api.nvim_create_autocmd(\"FileType\", {",
+      "\tpattern = \"${1:ft}\",",
+      "\tcallback = function()",
+      "\t\t$0",
+      "\tend,",
+      "})"
+    ],
+    "prefix": "weroiuoewiruoiuwoeiuroiuoiweuroiuoweiruoiu-just-example"
+  },
+  "my snip": {
+    "body": [
+      "<!-- ${1} -->",
+      "<node nodeID=\"${2}_N-0\" description=\"\" kilometre=\"2.0\" x=\"2.5\" xNet=\"2.5\" y=\"0\" yNet=\"0\" />",
+      "<node nodeID=\"${2}_N-1\" description=\"\" kilometre=\"2.5\" x=\"3.0\" xNet=\"3.0\" y=\"0\" yNet=\"0\" />",
+      "<track nodeID=\"${2}_T-1\" trackID=\"T-1\" stationID=\"${1}\" description=\"Station ${1} Track 1\" kilometre=\"3.0\" x=\"4\" xNet=\"4\" y=\"0\" yNet=\"0\" />",
+      "<track nodeID=\"${2}_T-2\" trackID=\"T-2\" stationID=\"${1}\" description=\"Station ${1} Track 2\" kilometre=\"3.0\" x=\"4\" xNet=\"4\" y=\"0\" yNet=\"0\" />",
+      "<node nodeID=\"${2}_S-1\" description=\"\" kilometre=\"4.0\" x=\"5\" xNet=\"5\" y=\"0\" yNet=\"0\" />",
+      "<node nodeID=\"${2}_S-2\" description=\"\" kilometre=\"4.0\" x=\"5\" xNet=\"5\" y=\"0\" yNet=\"0\" />",
+      "<node nodeID=\"${2}_S-3\" description=\"\" kilometre=\"4.0\" x=\"5\" xNet=\"5\" y=\"0\" yNet=\"0\" />",
+      "<node nodeID=\"${2}_S-4\" description=\"\" kilometre=\"4.0\" x=\"5\" xNet=\"5\" y=\"0\" yNet=\"0\" />",
+      "<node nodeID=\"${0}_N-0\" description=\"\" kilometre=\"4.0\" x=\"5\" xNet=\"5\" y=\"0\" yNet=\"0\" />",
+      "<!-- ${1} -->",
+      "<link gradient=\"0.0\" length=\"500\" source=\"${1}_S-1\" target=\"${2}_N-0\" vmax=\"160\" vmaxr=\"160\" />",
+      "<link gradient=\"0.0\" length=\"500\" source=\"${2}_N-0\" target=\"${2}_N-1\" vmax=\"160\" vmaxr=\"160\" />",
+      "<link gradient=\"0.0\" length=\"500\" source=\"${2}_N-1\" target=\"${2}_T-1\" vmax=\"160\" vmaxr=\"160\" />",
+      "<link gradient=\"0.0\" length=\"500\" source=\"${2}_N-1\" target=\"${2}_T-2\" vmax=\"160\" vmaxr=\"160\" />",
+      "<link gradient=\"0.0\" length=\"500\" source=\"${2}_T-1\" target=\"${2}_S-1\" vmax=\"160\" vmaxr=\"160\" />",
+      "<link gradient=\"0.0\" length=\"500\" source=\"${2}_T-2\" target=\"${2}_S-1\" vmax=\"160\" vmaxr=\"160\" />",
+      "<link gradient=\"0.0\" length=\"500\" source=\"${2}_S-1\" target=\"${0}_N-0\" vmax=\"160\" vmaxr=\"160\" />",
+      "<!-- ${1} -->",
+      "<stationRoute name=\"\" description=\"\" stationID=\"${1}\" nodes=\" ${1}_N-0 ${1}_N-1 ${1}_T-1 ${1}_S-1\"/>",
+      "<stationRoute name=\"\" description=\"\" stationID=\"${1}\" nodes=\" ${1}_N-0 ${1}_N-1 ${1}_T-2 ${1}_S-1\"/>",
+      "<stationRoute name=\"\" description=\"\" stationID=\"${1}\" nodes=\" ${1}_T-1 ${1}_S-1 ${2}_N-0 \"/>",
+      "<stationRoute name=\"\" description=\"\" stationID=\"${1}\" nodes=\" ${1}_T-2 ${1}_S-1 ${2}_N-0 \"/>",
+      "<!-- Nong Kai -->",
+      "<stationRoute name=\"\" description=\"\" stationID=\"${2}\" nodes=\" ${2}_N-0 ${2}_N-1 ${2}_T-1 ${2}_S-1\"/>",
+      "<stationRoute name=\"\" description=\"\" stationID=\"${2}\" nodes=\" ${2}_N-0 ${2}_N-1 ${2}_T-2 ${2}_S-1\"/>",
+      "<stationRoute name=\"\" description=\"\" stationID=\"${2}\" nodes=\" ${2}_S-1 ${0}_N-0\"/>"
+    ],
+    "prefix": "line"
+  }
+}
