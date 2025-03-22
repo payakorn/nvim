@@ -18,4 +18,5 @@ vim.keymap.set("n", "<c-cr>", "i<cr><esc>", opts)
 
 -- move to the next character in insert mode
 --
-vim.keymap.set("i", "<c-l>", "<esc>la")
+vim.keymap.set("i", "<c-l>", "<esc>la", opts)
+vim.keymap.set("i", "<c-j>", "<esc>ha", opts)
