@@ -1,3 +1,6 @@
+if true then
+  return {}
+end
 return {
   {
     "folke/tokyonight.nvim",
@@ -13,6 +16,7 @@ return {
       floats = "dark", -- style for floating windows
     },
     priority = 1000, -- make sure to load this before all the other start plugins
+    transparent = true,
     config = function()
       local bg = "#011628"
       local bg_dark = "#011423"
@@ -21,7 +25,7 @@ return {
       local bg_visual = "#275378"
       local fg = "#CBE0F0"
       local fg_dark = "#B4D0E9"
-      local fg_gutter = "#627E97"
+      local fg_gutter = "#607E97"
       local border = "#547998"
 
       require("tokyonight").setup({
