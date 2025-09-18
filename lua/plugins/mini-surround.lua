@@ -1,5 +1,6 @@
 return {
-  "echasnovski/mini.surround",
+  "nvim-mini/mini.surround",
+  -- "echasnovski/mini.surround",
   opts = {
     mappings = {
       add = "gsa",
