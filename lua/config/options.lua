@@ -43,6 +43,10 @@ end,
 vim.g.lazyvim_python_lsp = "ruff_lsp"
 vim.g.lazyvim_python_ruff = "ruff"
 
+vim.lsp.enable("julials")
+-- use this to install julials and Disable from mason
+-- julia --project=@nvim-lspconfig -e 'using Pkg; Pkg.add("LanguageServer")'
+
 -- set mouse
 -- opt.mouse = "a"
 --
