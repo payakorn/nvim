@@ -38,14 +38,14 @@ end,
 ---- LSP Server to use for Python.
 -- Set to "basedpyright" to use basedpyright instead of pyright.
 -- vim.g.lazyvim_python_lsp = "black"
--- Set to "ruff_lsp" to use the old LSP implementation version.
+-- Set to "ruff_lsp" to use the old (deprecated) LSP implementation version.
 --
-vim.g.lazyvim_python_lsp = "ruff_lsp"
+vim.g.lazyvim_python_lsp = "ruff"
 vim.g.lazyvim_python_ruff = "ruff"
 
 vim.lsp.enable("julials")
 -- use this to install julials and Disable from mason
--- julia --project=@nvim-lspconfig -e 'using Pkg; Pkg.add("LanguageServer")'
+-- julia --project=~/.julia/environments/lsp/ -e 'using Pkg; Pkg.add("LanguageServer")'
 
 -- set mouse
 -- opt.mouse = "a"
