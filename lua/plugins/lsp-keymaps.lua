@@ -20,8 +20,38 @@ return {
       servers = {
         ["*"] = {
           keys = {
+            -- ]] / [[ go back to vimtex (see above)
             { "]]", false },
             { "[[", false },
+
+            -- Snacks.words reference jumping moves off <a-n>/<a-p>: Option is a
+            -- compose key on macOS, so those need macos-option-as-alt and are
+            -- awkward to reach. ]r / [r were free and match the neighbouring
+            -- bracket motions -- ]d diagnostic, ]h hunk, ]q quickfix, ]t todo.
+            { "<a-n>", false },
+            { "<a-p>", false },
+            {
+              "]r",
+              function()
+                Snacks.words.jump(vim.v.count1, true)
+              end,
+              has = "documentHighlight",
+              desc = "Next Reference",
+              enabled = function()
+                return Snacks.words.is_enabled()
+              end,
+            },
+            {
+              "[r",
+              function()
+                Snacks.words.jump(-vim.v.count1, true)
+              end,
+              has = "documentHighlight",
+              desc = "Prev Reference",
+              enabled = function()
+                return Snacks.words.is_enabled()
+              end,
+            },
           },
         },
       },
