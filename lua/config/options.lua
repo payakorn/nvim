@@ -5,6 +5,13 @@
 -- Motivation: Less clutter in completion windows and a more direct usage of snippits
 vim.g.lazyvim_mini_snippets_in_completion = true
 
+-- Show Copilot suggestions as inline ghost text instead of as entries in the
+-- nvim-cmp menu. With ai_cmp = true (LazyVim's default) the copilot-cmp source
+-- is injected at the top of the completion menu and multi-line suggestions get
+-- truncated to a single row; false enables copilot.lua's own inline preview.
+-- <Tab> accepts, <M-]>/<M-[> cycle. Must be set before plugins are evaluated.
+vim.g.ai_cmp = false
+
 -- NOTE: Please also read:
 -- https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-snippets.md#expand
 -- :h MiniSnippets-session
