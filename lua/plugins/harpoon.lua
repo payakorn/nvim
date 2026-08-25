@@ -1,9 +1,6 @@
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
-  dependencies = {
-    "nvim-telescope/telescope.nvim", -- ensure telescope is available
-  },
   opts = {
     menu = {
       width = vim.api.nvim_win_get_width(0) - 4,
@@ -40,32 +37,26 @@ return {
       })
     end
 
-    -- Add <C-e> Telescope integration key here so Lazy registers it
+    -- Add <C-e> fzf-lua integration key here so Lazy registers it
     table.insert(keys, {
       "<C-e>",
       function()
         local harpoon = require("harpoon")
-        local conf = require("telescope.config").values
+        local fzf = require("fzf-lua")
 
-        local function toggle_telescope(harpoon_files)
-          local file_paths = {}
-          for _, item in ipairs(harpoon_files.items) do
-            table.insert(file_paths, item.value)
-          end
-
-          require("telescope.pickers")
-            .new({}, {
-              prompt_title = "Harpoon",
-              finder = require("telescope.finders").new_table({ results = file_paths }),
-              previewer = conf.file_previewer({}),
-              sorter = conf.generic_sorter({}),
-            })
-            :find()
+        local file_paths = {}
+        for _, item in ipairs(harpoon:list().items) do
+          table.insert(file_paths, item.value)
         end
 
-        toggle_telescope(harpoon:list())
+        fzf.fzf_exec(file_paths, {
+          prompt = "Harpoon> ",
+          previewer = "builtin",
+          -- reuse fzf-lua's own file actions: enter/ctrl-s/ctrl-v/ctrl-t etc.
+          actions = fzf.defaults.actions.files,
+        })
       end,
-      desc = "Harpoon Telescope",
+      desc = "Harpoon (fzf-lua)",
       mode = "n",
     })
 
