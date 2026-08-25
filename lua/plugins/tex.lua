@@ -25,4 +25,23 @@ return {
       },
     },
   },
+
+  -- Use the Homebrew texlab, not Mason's.
+  --
+  -- Mason was pinned at 5.23.1 (June 2025), four releases behind. That build
+  -- panics in did_change --
+  --   crates/texlab/src/server.rs:396: offset_lsp_range(range).unwrap()
+  -- -- when an incremental edit range fails to map into its line index, taking
+  -- the whole server down with exit code 101 instead of recovering.
+  --
+  -- mason = false stops LazyVim installing or launching Mason's copy, so the
+  -- brew binary (5.26.0) on PATH is used instead.
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        texlab = { mason = false },
+      },
+    },
+  },
 }
