@@ -73,6 +73,21 @@ Use `gr` before renaming a label — it shows every use first.
 | `<leader>e` | File explorer |
 | `s` / `S` | Leap forward / backward — then two characters |
 
+### When you cannot remember a key
+
+| Key | Action |
+| --- | --- |
+| `<leader>sk` | Every keymap live in this session, with its description |
+| `<leader>sK` | This file as a picker — search by key or by wording **(custom)** |
+| `<leader>` | Wait a moment — which-key lists what can follow |
+| `:verbose map <key>` | Which file set this key, and to what |
+
+`<leader>sk` is the ground truth: it reads the mappings Neovim actually holds.
+`<leader>sK` reads *this file*, so it carries the notes, the **(custom)** marks
+and the regex tables below. `Enter` echoes the entry and yanks it, `<C-x>` runs
+the key, `<C-o>` opens KEYS.md at that row. It is `lua/plugins/keys-cheatsheet.lua`,
+and it re-parses on every open — add a row here and the picker has it.
+
 ## Pinned files
 
 `harpoon`.
@@ -132,6 +147,77 @@ as Alt on macOS and are awkward to reach.
 
 Copilot renders as inline ghost text rather than as entries in the completion
 menu — that is `vim.g.ai_cmp = false` in `lua/config/options.lua`.
+
+## Regex
+
+Nothing here is a key to press — these rows are in the `<leader>sK` picker so a
+pattern you half-remember is one search away. `Enter` yanks the pattern.
+
+### Vim search — `/` and `?`
+
+| Pattern | Meaning |
+| --- | --- |
+| `\v` | Very magic — `(`, `\|`, `+`, `?`, `{}` work as in PCRE. Start here |
+| `\V` | Very nomagic — everything literal but `\`. For searching LaTeX |
+| `\<` / `\>` | Word start / end — `\vword>` matches the word, not the prefix |
+| `\zs` / `\ze` | Match starts / ends here; the rest is only context |
+| `\{-}` | Non-greedy `*` — `\v\{.\{-}\}` stops at the first `}` |
+| `\%(...\)` | Group without capturing |
+| `\v(x)@=` / `(x)@!` | Lookahead / negative lookahead |
+| `\v(x)@<=` / `(x)@<!` | Lookbehind / negative lookbehind |
+| `\c` / `\C` | Case-insensitive / sensitive, anywhere in the pattern |
+| `\_s` / `\_.` | Whitespace / any character, newline included |
+| `*` / `#` | Search the word under the cursor forward / backward |
+| `q/` | Search history in a real window you can edit and re-run |
+
+`\v` first is the habit worth building: `\v(align|equation)\*?` instead of
+`\(align\|equation\)\*\=`.
+
+### Substitute
+
+| Pattern | Meaning |
+| --- | --- |
+| `:%s/old/new/g` | Every match in the file |
+| `:%s//new/g` | Empty pattern reuses the last search — search first, then fix |
+| `:%s/x/y/gc` | Confirm each: `y` `n` `a` skip-all `l` last `q` quit |
+| `:'<,'>s/x/y/g` | Only the visual selection |
+| `\0` `\1` … `\9` | Whole match / capture groups, in the replacement |
+| `~` | The previous replacement text |
+| `\U` `\L` `\E` | Upper-case / lower-case until `\E` — `\U\1` shouts group 1 |
+| `\=expr` | Replacement is Vimscript — `:%s/\d+/\=submatch(0)+1/` |
+| `:g/pat/d` | Delete every matching line; `:v/pat/d` keeps only matches |
+| `:g/pat/normal @q` | Run macro `q` on every matching line |
+| `&` / `g&` | Repeat the last substitute on this line / whole file |
+
+### ripgrep — `<leader>sg`, `<leader>sw`
+
+Rust regex, not Vim's: `\b` not `\<`, and **no lookaround at all**.
+
+| Pattern | Meaning |
+| --- | --- |
+| `\b` | Word boundary |
+| `(?i)pat` | Case-insensitive from here on |
+| `(?:...)` | Non-capturing group |
+| `x\|y` | Alternation — plain, no backslash |
+| `query -- *.tex` | fzf-lua: everything after a bare `--` becomes an `--iglob` **(custom)** |
+| `query -- -tpy` | Same separator takes raw rg flags — `-t` type, `-F` literal, `-w` word |
+
+Search is smart-case by default: lowercase matches anything, one capital makes
+it case-sensitive.
+
+### Lua patterns — for editing this config
+
+Not regex. `%` is the escape, and there is no alternation.
+
+| Pattern | Meaning |
+| --- | --- |
+| `%s` `%w` `%d` `%a` | Space / alphanumeric / digit / letter — capitals negate |
+| `.-` | Non-greedy `.*` |
+| `%b()` | Balanced pair, nesting included |
+| `%(` `%)` `%.` `%%` | Literal `(` `)` `.` `%` |
+| `^` `$` | Anchors — `string.gsub` has no `\|`, use two passes |
+
+---
 
 ## Getting back
 
