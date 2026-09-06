@@ -44,9 +44,11 @@ return {
           mason = false,
           settings = {
             texlab = {
-              -- building stays with vimtex; chktex marks show as diagnostics
+              -- building stays with vimtex; chktex is off because its style
+              -- opinions (dash lengths, spacing after commands, ...) flag
+              -- nearly every line of a manuscript and bury real problems
               build = { onSave = false },
-              chktex = { onOpenAndSave = true, onEdit = false },
+              chktex = { onOpenAndSave = false, onEdit = false },
               latexindent = { modifyLineBreaks = false },
             },
           },
