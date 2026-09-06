@@ -16,3 +16,22 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.b.autoformat = false
   end,
 })
+
+-- LaTeX and BibTeX buffers: the paper keeps one paragraph per line, so soft
+-- wrap at word boundaries is what makes the text readable; spell-check in US
+-- English (the project's variety), with j/k moving by screen line.
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("tex_prose", { clear = true }),
+  pattern = { "tex", "plaintex", "bib" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+    vim.opt_local.breakindent = true
+    vim.opt_local.textwidth = 0
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = "en_us"
+    vim.opt_local.conceallevel = 0
+    vim.keymap.set({ "n", "v" }, "j", "gj", { buffer = true })
+    vim.keymap.set({ "n", "v" }, "k", "gk", { buffer = true })
+  end,
+})

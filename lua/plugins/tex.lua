@@ -40,8 +40,70 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        texlab = { mason = false },
+        texlab = {
+          mason = false,
+          settings = {
+            texlab = {
+              -- building stays with vimtex; chktex marks show as diagnostics
+              build = { onSave = false },
+              chktex = { onOpenAndSave = true, onEdit = false },
+              latexindent = { modifyLineBreaks = false },
+            },
+          },
+        },
       },
     },
+  },
+
+  -- vimtex on top of LazyVim's lang.tex extra.
+  --
+  -- Viewer: zathura, the one viewer that does both directions of SyncTeX with
+  -- vimtex on Wayland without extra tooling: <localleader>lv jumps from the
+  -- cursor to the PDF, Ctrl+click in the PDF jumps back to the source line.
+  -- Linux: sudo pacman -S zathura zathura-pdf-mupdf. macOS: Skim instead.
+  {
+    "lervag/vimtex",
+    init = function()
+      vim.g.vimtex_view_method = vim.fn.has("mac") == 1 and "skim" or "zathura"
+
+      -- latexmk in continuous mode (<localleader>ll toggles it), same flags as
+      -- the paper's CI build plus synctex for the viewer.
+      vim.g.vimtex_compiler_latexmk = {
+        aux_dir = "",
+        out_dir = "",
+        callback = 1,
+        continuous = 1,
+        executable = "latexmk",
+        options = {
+          "-pdf",
+          "-synctex=1",
+          "-interaction=nonstopmode",
+          "-file-line-error",
+        },
+      }
+
+      -- Quickfix opens on real errors only, and the box warnings are dropped:
+      -- they are checked deliberately (see the paper's \emergencystretch note),
+      -- not on every save.
+      vim.g.vimtex_quickfix_open_on_warning = 0
+      vim.g.vimtex_quickfix_ignore_filters = {
+        "Underfull \\\\hbox",
+        "Overfull \\\\hbox",
+        "Underfull \\\\vbox",
+        "Overfull \\\\vbox",
+        "Package hyperref Warning",
+      }
+
+      -- Show the source as written; no unicode substitution of \alpha, \cite etc.
+      vim.g.vimtex_syntax_conceal_disable = 1
+
+      -- Table of contents in a narrow left split (<localleader>lt).
+      vim.g.vimtex_toc_config = {
+        split_pos = "vert leftabove",
+        split_width = 36,
+        show_help = 0,
+        layer_status = { label = 0, include = 0 },
+      }
+    end,
   },
 }
