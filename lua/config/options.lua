@@ -85,9 +85,9 @@ vim.lsp.config("julials", {
                     Base.load_path_expand("@v#.#"),
                 ))
             end
-                    @info "Running language server" VERSION pwd() project_path depot_path
-                    server = LanguageServer.LanguageServerInstance(stdin, stdout, project_path, depot_path)
-        server.runlinter = true
+                    @info "Running language server" VERSION pwd() project_path
+                    # LanguageServer >= 6 dropped the depot_path argument and the runlinter field
+                    server = LanguageServer.LanguageServerInstance(stdin, stdout, project_path)
             run(server)
         ]],
   },
