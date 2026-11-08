@@ -40,9 +40,12 @@ return {
         -- mantle = "#000000",
         -- crust = "#000000",
 
-        -- this 16 colors are changed to onedark
-        base = "#282c34",
-        mantle = "#353b45",
+        -- darker background, the same as Ghostty's "Catppuccin Mocha Dark"
+        -- (was onedark #282c34 / #353b45)
+        base = "#11111b",
+        mantle = "#0b0b12",
+
+        -- the rest of these 16 colors are changed to onedark
         surface0 = "#3e4451",
         surface1 = "#545862",
         surface2 = "#565c64",
@@ -72,7 +75,7 @@ return {
         overlay1 = "#7F849C",
         overlay0 = "#6C7086",
 
-        crust = "#11111B",
+        crust = "#07070c",
       },
     },
     integrations = {
