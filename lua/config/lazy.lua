@@ -21,7 +21,7 @@ require("lazy").setup({
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = {
-        colorscheme = "catppuccin",
+        -- colorscheme: set in lua/plugins/rose-pine.lua (follows light/dark)
         -- colorscheme = "solarized-osaka-moon",
       },
     },
