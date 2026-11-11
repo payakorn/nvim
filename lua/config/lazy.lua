@@ -25,10 +25,8 @@ require("lazy").setup({
         -- colorscheme = "solarized-osaka-moon",
       },
     },
+    -- other extras (typescript, json, ...) are enabled in lazyvim.json via :LazyExtras
     { import = "lazyvim.plugins.extras.linting.eslint" },
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    { import = "lazyvim.plugins.extras.lang.json" },
-    -- { import = "lazyvim.plugins.extras.formatting.prettier" },
     -- import/override with your plugins
     { import = "plugins" },
   },
@@ -41,7 +39,9 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "tokyonight", "habamax", "onedark" } },
+  install = { colorscheme = { "catppuccin", "rose-pine", "habamax" } },
+  -- no plugin here needs luarocks; this silences the hererocks error in :checkhealth
+  rocks = { enabled = false },
   checker = {
     enabled = true, -- check for plugin updates periodically
     notify = true, -- notify on update

@@ -16,3 +16,14 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.b.autoformat = false
   end,
 })
+
+-- Show raw quotes in JSON (LazyVim's default conceallevel is 2). Markdown is not
+-- listed: render-markdown.nvim sets its own conceallevel and would win anyway
+-- (<leader>um toggles the rendered view).
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("no_conceal", { clear = true }),
+  pattern = { "json", "jsonc" },
+  callback = function()
+    vim.wo.conceallevel = 0
+  end,
+})

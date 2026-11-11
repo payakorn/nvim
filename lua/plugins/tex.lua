@@ -26,21 +26,42 @@ return {
     },
   },
 
-  -- Use the Homebrew texlab, not Mason's.
+  -- texlab: force full-document sync, and use the Homebrew binary.
   --
-  -- Mason was pinned at 5.23.1 (June 2025), four releases behind. That build
-  -- panics in did_change --
-  --   crates/texlab/src/server.rs:396: offset_lsp_range(range).unwrap()
-  -- -- when an incremental edit range fails to map into its line index, taking
-  -- the whole server down with exit code 101 instead of recovering.
+  -- texlab panics in did_change and dies with exit code 101 --
+  --   crates/texlab/src/server.rs:422: offset_lsp_range(range).unwrap()
+  -- -- when an incremental edit range does not map into its line index.
+  -- This was first blamed on Mason's pinned 5.23.1 (same unwrap, then at
+  -- server.rs:396), but brew's 5.26.0 panics identically: the bug is upstream
+  -- and still open, so mason = false alone never fixed it.
   --
-  -- mason = false stops LazyVim installing or launching Mason's copy, so the
-  -- brew binary (5.26.0) on PATH is used instead.
+  -- The trigger is a buffer with no trailing newline. Neovim marks it 'noeol'
+  -- and sends didOpen text ending mid-line, but its incremental sync still
+  -- reports edits on the last line as ending at {line = <count>, character = 0}
+  -- -- one position past what the server holds. Other servers clamp that;
+  -- texlab unwraps None. The paper repo is synced with Overleaf, which is free
+  -- to drop the final newline again, so fixing the file is not enough.
+  --
+  -- Overriding textDocumentSync.change to 1 (Full) in on_init -- before the
+  -- first didOpen -- removes ranges from the wire entirely, so the unwrap can
+  -- never be reached. Cost is resending the whole buffer per keystroke (~90KB
+  -- for main.tex), which is nothing over a local pipe and is what texlab's
+  -- reparse does anyway.
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        texlab = { mason = false },
+        texlab = {
+          mason = false,
+          on_init = function(client)
+            local sync = client.server_capabilities.textDocumentSync
+            if type(sync) == "table" then
+              sync.change = 1 -- TextDocumentSyncKind.Full
+            else
+              client.server_capabilities.textDocumentSync = { openClose = true, change = 1 }
+            end
+          end,
+        },
       },
     },
   },
