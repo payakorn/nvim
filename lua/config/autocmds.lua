@@ -17,13 +17,16 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Show raw quotes in JSON (LazyVim's default conceallevel is 2). Markdown is not
+-- Show raw quotes in JSON (LazyVim's default conceallevel is 2), and raw LaTeX in
+-- tex/bib: vimtex's concealed math broke the screen in Thai chapters (stale
+-- duplicate lines until a scroll redrew them; 2026-11-14). Markdown is not
 -- listed: render-markdown.nvim sets its own conceallevel and would win anyway
 -- (<leader>um toggles the rendered view).
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("no_conceal", { clear = true }),
-  pattern = { "json", "jsonc" },
+  pattern = { "json", "jsonc", "tex", "plaintex", "bib" },
   callback = function()
     vim.wo.conceallevel = 0
   end,
 })
+

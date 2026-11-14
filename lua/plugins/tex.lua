@@ -47,9 +47,13 @@ return {
   -- never be reached. Cost is resending the whole buffer per keystroke (~90KB
   -- for main.tex), which is nothing over a local pipe and is what texlab's
   -- reparse does anyway.
+  -- No inlay hints in LaTeX: texlab writes each \label's number and each \ref's
+  -- target as grey text inside the line, which made the Thai chapters hard to
+  -- read (2026-11-14).
   {
     "neovim/nvim-lspconfig",
     opts = {
+      inlay_hints = { exclude = { "vue", "tex", "plaintex", "bib" } },
       servers = {
         texlab = {
           mason = false,
