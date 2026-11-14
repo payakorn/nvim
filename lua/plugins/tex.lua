@@ -65,4 +65,18 @@ return {
       },
     },
   },
+  -- PDF viewer with SyncTeX, both ways: \lv shows the cursor's line in the PDF,
+  -- Ctrl+click in the PDF jumps back to that line here. Skim on the Mac; on Linux
+  -- zathura_simple (the plain "zathura" method needs xdotool, which Wayland lacks).
+  -- The engine comes from each project's .latexmkrc (206255/notes sets xelatex).
+  {
+    "lervag/vimtex",
+    init = function()
+      if vim.fn.has("mac") == 1 then
+        vim.g.vimtex_view_method = "skim"
+      else
+        vim.g.vimtex_view_method = "zathura_simple"
+      end
+    end,
+  },
 }
